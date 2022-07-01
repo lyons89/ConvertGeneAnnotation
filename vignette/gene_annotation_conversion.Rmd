@@ -47,8 +47,8 @@ Function that builds the biomaRt databases, given the species specified from org
 ```{r echo = TRUE}
 annotation_databases = function(dataset_lsts){
   
-  species1 = useEnsembl("ensembl",  host = "https://uswest.ensembl.org", dataset = org.db[1])
-  species2 = useEnsembl("ensembl", host = "https://uswest.ensembl.org", dataset = org.db[2])
+  species1 = useEnsembl("ensembl",  host = "https://dec2021.archive.ensembl.org", dataset = org.db[1])
+  species2 = useEnsembl("ensembl", host = "https://dec2021.archive.ensembl.org", dataset = org.db[2])
   
   lst = list(species1, species2)
 }
@@ -72,15 +72,15 @@ I'm going to add some examples of the attribute names and what those look like b
 I've also found out that the Ensembl biomart server isn't designed to handle large queries. There's apparently a 5 minute time limit (https://support.bioconductor.org/p/9135542/). So if you are getting 'timed out' errors you can either reduce the number of values your converting 'from' by filtering first, or reduce the number of 'to' attributes. 
 
 ```{r echo = TRUE}
-annotation_convert = function(atribute_lst ,annotation_datasets){
+annotation_convert = function(data, atribute_lst ,annotation_datasets){
   
-  converged = getLDS(attributes = attributes_lst[[1]], filters = attributes_lst[[1]], values = df$gene_symbol, mart = annotation[[1]], 
+  converged = getLDS(attributes = attributes_lst[[1]], filters = attributes_lst[[1]], values = data, mart = annotation[[1]], 
                      attributesL = attributes_lst[[2]], martL = annotation[[2]], uniqueRows = T)
 }
 
 attributes_lst = lst('from' = c('mgi_symbol'),  'to' = c('hgnc_symbol' ,'ensembl_gene_id', 'ensembl_peptide_id'))
 
-convert_annotation = annotation_convert(attributes_lst, annotation)
+convert_annotation = annotation_convert(df, attributes_lst, annotation)
 
 lapply(convert_annotation, head)
 
