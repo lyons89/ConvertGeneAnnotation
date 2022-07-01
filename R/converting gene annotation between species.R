@@ -21,8 +21,8 @@ org.db = c("mmusculus_gene_ensembl", "hsapiens_gene_ensembl")
 
 annotation_datasets = function(dataset_lsts){
   
-  species1 = useEnsembl("ensembl",  host = "https://uswest.ensembl.org", dataset = org.db[1])
-  species2 = useEnsembl("ensembl", host = "https://uswest.ensembl.org", dataset = org.db[2])
+  species1 = useEnsembl("ensembl",  host = "https://dec2021.archive.ensembl.org", dataset = org.db[1])
+  species2 = useEnsembl("ensembl", host = "https://dec2021.archive.ensembl.org", dataset = org.db[2])
   
   lst = list(species1, species2)
 }
@@ -35,7 +35,7 @@ lst_attriubtes = lapply(annotation, function(x) listAttributes(x))
 lapply(lst_attriubtes, head)
 
 
-annotation_convert = function(atribute_lst ,annotation_datasets){
+annotation_convert = function(data, atribute_lst ,annotation_datasets){
   
   converged = getLDS(attributes = attributes_lst[[1]], filters = attributes_lst[[1]], values = df1$gene_symbol, mart = annotation[[1]], 
                      attributesL = attributes_lst[[2]], martL = annotation[[2]], uniqueRows = T)
@@ -43,7 +43,7 @@ annotation_convert = function(atribute_lst ,annotation_datasets){
 
 attributes_lst = lst('from' = c('mgi_symbol'),  'to' = c('hgnc_symbol', 'hgnc_id'))
 
-convert_annotation = annotation_convert(attributes_lst, annotation)
+convert_annotation = annotation_convert(df$gene_symbol, attributes_lst, annotation)
 
 
 
